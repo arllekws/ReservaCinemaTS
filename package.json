@@ -13,6 +13,13 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@types/chalk": "^0.4.31",
+    "@types/node": "^22.14.1",
+    "@types/readline-sync": "^1.4.8",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "readline-sync": "^1.4.10"
   }
 }
