@@ -1,4 +1,4 @@
-﻿let readlineSync = require('readline-sync');
+let readlineSync = require('readline-sync');
 import chalk from 'chalk';
 
 const filmes = [
@@ -6,7 +6,7 @@ const filmes = [
     { filme: 'O Senhor dos Anéis: A Sociedade do Anel', ano: 2001, duracao: 178, genero: 'Fantasia' },
     { filme: 'Resident Evil 1', ano: 2008, duracao: 179, genero: 'Ação' },
     { filme: 'É assim que acaba', ano: 2024, duracao: 179, genero: 'Romance' },
-]
+];
 
 const lugares = [
     { lugar: 'A1', disponivel: true },
@@ -14,17 +14,18 @@ const lugares = [
     { lugar: 'A3', disponivel: true },
     { lugar: 'A4', disponivel: true },
     { lugar: 'A5', disponivel: true },
-]
+];
+
 const clientes = [
     { cliente: 'João', lugar: 'A1', filme: 'A Origem' },
     { cliente: 'Maria', lugar: 'A2', filme: 'O Senhor dos Anéis: A Sociedade do Anel' },
     { cliente: 'Pedro', lugar: 'A3', filme: 'Resident Evil 1' },
     { cliente: 'Ana', lugar: 'A4', filme: 'É assim que acaba' },
-]
+    
+];
 
 function reservarIngresso(cliente: string, nome: string, lugar: string) {
     console.log(chalk.green(`Ingresso reservado com sucesso para ${cliente} no filme ${nome} no lugar ${lugar}.`));
-    
 }
 
 function verIngressosReservados() {
@@ -47,20 +48,19 @@ function adicionarFilmeInterativo() {
     adicionarFilmes(filme, ano, duracao, genero);
 }
 
-console.log(chalk.blue('Bem-vindo ao sistema de reservas de ingressos!'));
-
-
-console.log("Primeiramente, voce é cliente ou funcionario?")
-const clienteOuFuncionario = readlineSync.questionInt(chalk.blue('Digite 1 para cliente ou 2 para funcionario: ')) ;
-if (clienteOuFuncionario === 1) {
-    let continuarComprando: string;
+function menuCliente() {
+    let continuar: string;
     do {
         console.log(chalk.blue('Escolha um filme:'));
-        console.log(filmes.map((filme, index) => `${index} - ${filme.filme} (${filme.ano})`).join('\n'));
+        filmes.forEach((f, i) => {
+            console.log(`${i} - ${f.filme} (${f.ano})`);
+        });
         const filmeEscolhido = readlineSync.questionInt(chalk.blue('Digite o número do filme desejado: '));
 
         console.log(chalk.blue('Escolha um lugar:'));
-        console.log(lugares.map((lugar, index) => `${index} - ${lugar.lugar} ${lugar.disponivel ? '(Disponível)' : '(Ocupado)'}`).join('\n'));
+        lugares.forEach((l, i) => {
+            console.log(`${i} - ${l.lugar} ${l.disponivel ? '(Disponível)' : '(Ocupado)'}`);
+        });
         const lugarEscolhido = readlineSync.questionInt(chalk.blue('Digite o número do lugar desejado: '));
 
         if (lugarEscolhido < 0 || lugarEscolhido >= lugares.length) {
@@ -76,26 +76,54 @@ if (clienteOuFuncionario === 1) {
                 lugar: lugares[lugarEscolhido].lugar,
                 filme: filmes[filmeEscolhido].filme
             });
-            console.log(chalk.green(`Cliente ${cliente} reservado com sucesso!`));
         }
 
-        continuarComprando = readlineSync.question(chalk.blue('Deseja comprar outro ingresso? (sim/não): ')).toLowerCase();
-    } while (continuarComprando === 'sim');
+        continuar = readlineSync.question(chalk.blue('Deseja comprar outro ingresso? (sim/não): ')).toLowerCase();
+    } while (continuar === 'sim');
 }
 
-else if(clienteOuFuncionario === 2){
+function menuFuncionario() {
     console.log(chalk.blue('Escolha uma opção:'));
     console.log('1 - Adicionar filme');
     console.log('2 - Ver ingressos reservados');
-    const opcao = readlineSync.questionInt(chalk.blue('Digite o número da opção desejada: ')) ;
-    if(opcao == 1){
+    const opcao = readlineSync.questionInt(chalk.blue('Digite o número da opção desejada: '));
+
+    if (opcao === 1) {
         adicionarFilmeInterativo();
-    }else if(opcao == 2){
+    } else if (opcao === 2) {
         verIngressosReservados();
-    }else{
+    } else {
         console.log(chalk.red('Opção inválida!'));
     }
 }
 
-console.log(chalk.blue('Obrigado por usar o sistema de reservas de ingressos!'));
+function menuPrincipal() {
+    let continuarSistema: string;
+    do {
+        console.log(chalk.blue('\n Bem-vindo ao sistema de reservas de ingressos! 🎥💗'));
+        console.log(chalk.magenta('----------------------------------------'));
 
+        console.log(chalk.blue('1. Cliente'));
+        console.log(chalk.blue('2. Funcionário'));
+        console.log(chalk.redBright('0. Sair'));
+        const tipoUsuario = readlineSync.questionInt(chalk.blue('Primeiramente, voce e cliente ou funcionario?: '));
+        
+        
+
+        if (tipoUsuario === 1) {
+            menuCliente();
+        } else if (tipoUsuario === 2) {
+            menuFuncionario();
+        } else if (tipoUsuario === 0) {
+            console.log(chalk.blue('Saindo do sistema...'));
+            break;
+        } else {
+            console.log(chalk.red('Opção invalida!'));
+        }
+
+        continuarSistema = readlineSync.question(chalk.blue('\nDeseja voltar ao menu principal? (sim/não): ')).toLowerCase();
+    } while (continuarSistema === 'sim');
+}
+
+menuPrincipal();
+console.log(chalk.blue('Obrigado por usar o sistema de reservas de ingressos!'));

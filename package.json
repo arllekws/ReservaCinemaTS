@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx ts-node src/index.ts",
+    "devv": "npx ts-node src/teste.ts",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
