@@ -100,7 +100,7 @@ function menuFuncionario() {
 function menuPrincipal() {
     let continuarSistema: string;
     do {
-        console.log(chalk.blue('\n Bem-vindo ao sistema de reservas de ingressos! 🎥💗'));
+        console.log(chalk.blue('\n Bem-vindo ao sistema de reservas de ingressos! 🎥'));
         console.log(chalk.magenta('----------------------------------------'));
 
         console.log(chalk.blue('1. Cliente'));
